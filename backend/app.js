@@ -3,8 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const logger = require('morgan');
 const session = require('express-session');
-const authRouter = require('./routes/authRouter');
 const FileStore = require('session-file-store')(session);
+const authRouter = require('./routes/authRouter');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
