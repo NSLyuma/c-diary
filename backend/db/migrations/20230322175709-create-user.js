@@ -8,6 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      role: {
+        allowNull: false,
+        type: Sequelize.TEXT,
+      },
       name: {
         allowNull: false,
         type: Sequelize.TEXT,
