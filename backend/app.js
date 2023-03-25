@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const logger = require('morgan');
 const session = require('express-session');
+const authRouter = require('./routes/authRouter');
 const FileStore = require('session-file-store')(session);
 
 const app = express();
@@ -24,6 +25,8 @@ app.use(logger('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session(sessionConfig));
+
+app.use('/api/auth', authRouter);
 
 app
   .listen(PORT)
