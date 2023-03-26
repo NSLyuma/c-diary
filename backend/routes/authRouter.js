@@ -57,7 +57,7 @@ authRouter.post('/login', async (req, res) => {
 
   res.json({
     userName: user.name,
-    role: user.role,
+    isAuth: true,
   });
 });
 
@@ -131,7 +131,7 @@ authRouter.post('/register', async (req, res) => {
     // создаём сессию
     req.session.userId = user.id;
 
-    res.json({ userName: user.userName });
+    res.json({ userName: user.name, isAuth: true });
   } catch (error) {
     console.log(`Ошибка при создании пользователя: ${error.message}`);
     res.status(500).json({ error: 'Не удалось зарегистрироваться' });
@@ -141,7 +141,9 @@ authRouter.post('/register', async (req, res) => {
 authRouter.delete('/logout', (req, res) => {
   req.session.destroy();
   res.clearCookie('user_sid');
-  res.end();
+  res.json({
+    isAuth: false,
+  });
 });
 
 module.exports = authRouter;

@@ -1,4 +1,7 @@
 import React, { useState, useRef } from 'react';
+import { useAppDispatch } from '../../store/store';
+import { UserData } from '../../types';
+import { enter } from './authSlice';
 
 function Auth() {
   const [authType, setAuthType] = useState<string>('login');
@@ -7,26 +10,31 @@ function Auth() {
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
 
+  const dispatch = useAppDispatch();
+
   const changeAuthType = () => {
     setAuthType((prev) => (prev === 'login' ? 'register' : 'login'));
   };
 
-  const enter = async () => {
-    const userData = {
+  const handleEnter = async () => {
+    const userData: UserData = {
+      authType,
       userName: userName.current && userName.current.value,
       email: email.current && email.current.value,
       password: password.current && password.current.value,
     };
 
-    const url = `/api/auth/${authType}`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData),
-    });
+    dispatch(enter(userData));
 
-    const data = await response.json();
-    console.log(data);
+    // const url = `/api/auth/${authType}`;
+    // const response = await fetch(url, {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify(userData),
+    // });
+
+    // const data = await response.json();
+    // console.log(data);
   };
 
   return (
@@ -65,7 +73,7 @@ function Auth() {
         </p>
       )}
 
-      <button onClick={enter}>
+      <button onClick={handleEnter}>
         {authType === 'login' ? 'Войти' : 'Зарегистрироваться'}
       </button>
     </div>

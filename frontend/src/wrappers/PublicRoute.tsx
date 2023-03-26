@@ -1,7 +1,13 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
-function PublicRoute() {
+type Props = {
+  isAuth: boolean;
+};
+
+function PublicRoute({ isAuth }: Props) {
+  if (isAuth) return <Navigate to="/main" />;
+
   return <Outlet />;
 }
 
