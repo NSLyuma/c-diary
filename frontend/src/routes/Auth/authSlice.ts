@@ -8,6 +8,11 @@ const initialState: AuthState = {
   error: undefined,
 };
 
+export const getUser = createAsyncThunk('auth/user', async () => {
+  const data = await authApi.requestIsAuth();
+  return data;
+});
+
 export const enter = createAsyncThunk(
   'auth/enter',
   async (userData: UserData) => {
@@ -22,6 +27,13 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.isAuth = action.payload.isAuth;
+        state.error = action.payload.error;
+      })
+      .addCase(getUser.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
       .addCase(enter.fulfilled, (state, action) => {
         state.userName = action.payload.userName;
         state.isAuth = action.payload.isAuth;

@@ -1,5 +1,14 @@
 import { UserData } from '../../types';
 
+export const requestIsAuth = async () => {
+  const response = await fetch('/api/auth/user');
+  const data = response.json();
+
+  if (!response.ok) throw new Error('Ошибка при поиске пользователя');
+
+  return data;
+};
+
 export const requestEnter = async (userData: UserData) => {
   const url = `/api/auth/${userData.authType}`;
   const response = await fetch(url, {
@@ -9,7 +18,6 @@ export const requestEnter = async (userData: UserData) => {
   });
 
   const data = await response.json();
-  console.log(data);
 
   if (!response.ok) throw new Error(data.error);
 

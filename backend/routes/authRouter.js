@@ -2,6 +2,24 @@ const authRouter = require('express').Router();
 const bcrypt = require('bcrypt');
 const { User } = require('../db/models');
 
+authRouter.get('/user', async (req, res) => {
+  let user;
+
+  try {
+    user = await User.findByPk(req.session.userId);
+  } catch (error) {
+    console.log(`Ошибка при поиске пользователя: ${error.message}`);
+    res.status(500).json({ error: 'Ошибка сервера' });
+  }
+
+  if (!user) {
+    res.status(401).json({ isAuth: false, error: 'Вы не авторизованы!' });
+    return;
+  }
+
+  res.json({ isAuth: true });
+});
+
 authRouter.post('/login', async (req, res) => {
   // достаём почту и пароль пользователя
   const isEmail = Boolean(req.body.email.trim());
