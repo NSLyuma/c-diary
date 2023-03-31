@@ -2,6 +2,24 @@ const authRouter = require('express').Router();
 const bcrypt = require('bcrypt');
 const { User } = require('../db/models');
 
+authRouter.get('/user', async (req, res) => {
+  let user;
+
+  try {
+    user = await User.findByPk(req.session.userId);
+  } catch (error) {
+    console.log(`Ошибка при поиске пользователя: ${error.message}`);
+    res.status(500).json({ error: 'Ошибка сервера' });
+  }
+
+  if (!user) {
+    res.status(401).json({ isAuth: false, error: 'Вы не авторизованы!' });
+    return;
+  }
+
+  res.json({ isAuth: true });
+});
+
 authRouter.post('/login', async (req, res) => {
   // достаём почту и пароль пользователя
   const isEmail = Boolean(req.body.email.trim());
@@ -57,7 +75,7 @@ authRouter.post('/login', async (req, res) => {
 
   res.json({
     userName: user.name,
-    role: user.role,
+    isAuth: true,
   });
 });
 
@@ -131,7 +149,7 @@ authRouter.post('/register', async (req, res) => {
     // создаём сессию
     req.session.userId = user.id;
 
-    res.json({ userName: user.userName });
+    res.json({ userName: user.name, isAuth: true });
   } catch (error) {
     console.log(`Ошибка при создании пользователя: ${error.message}`);
     res.status(500).json({ error: 'Не удалось зарегистрироваться' });
@@ -141,7 +159,9 @@ authRouter.post('/register', async (req, res) => {
 authRouter.delete('/logout', (req, res) => {
   req.session.destroy();
   res.clearCookie('user_sid');
-  res.end();
+  res.json({
+    isAuth: false,
+  });
 });
 
 module.exports = authRouter;

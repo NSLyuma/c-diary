@@ -10,7 +10,6 @@ module.exports = {
       },
       name: {
         allowNull: false,
-        unique: true,
         type: Sequelize.TEXT,
       },
       kcalOn100g: {
