@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useAppDispatch } from '../../store/store';
 import { UserData } from '../../types';
+import PageWrapper from '../../wrappers/PageWrapper';
 import { enter } from './authSlice';
 
 function Auth() {
@@ -28,7 +29,7 @@ function Auth() {
   };
 
   return (
-    <div>
+    <PageWrapper>
       {authType === 'register' && (
         <input
           ref={userName}
@@ -66,7 +67,7 @@ function Auth() {
       <button onClick={handleEnter}>
         {authType === 'login' ? 'Войти' : 'Зарегистрироваться'}
       </button>
-    </div>
+    </PageWrapper>
   );
 }
 

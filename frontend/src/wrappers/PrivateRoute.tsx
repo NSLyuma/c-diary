@@ -6,7 +6,7 @@ type Props = {
 };
 
 function PrivateRoute({ isAuth }: Props) {
-  if (!isAuth) return <Navigate to="/auth" />;
+  if (!isAuth) return <Navigate to="/" />;
 
   return <Outlet />;
 }

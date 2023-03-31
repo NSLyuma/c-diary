@@ -6,7 +6,7 @@ type Props = {
 };
 
 function PublicRoute({ isAuth }: Props) {
-  if (isAuth) return <Navigate to="/main" />;
+  if (isAuth) return <Navigate to="/home" />;
 
   return <Outlet />;
 }
