@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600&display=swap')
+@import ./_vars.sass
 
 *
   margin: 0
@@ -6,12 +7,22 @@
   box-sizing: border-box
   font-family: 'Comfortaa', 'Georgia', 'Times New Roman', cursive
   font-weight: 400
+  font-size: 1em
 
 button
   outline: none
   background-color: transparent
   cursor: pointer
   border: none
+
+input
+  outline: none
+  border: none
+  background-color: transparent
+  &::-moz-placeholder
+    color: $secondary
+  &::-webkit-input-placeholder
+    color: $secondary
 
 .container
   padding: 0 calc(50% - 570px)
