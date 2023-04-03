@@ -8,4 +8,7 @@ export const boxStyle = {
   p: 4,
   borderRadius: 2,
   width: 500,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
 };

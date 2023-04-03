@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useAppDispatch } from '../../store/store';
+import React, { useState, useRef } from 'react';
+import { RootState, useAppDispatch } from '../../store/store';
 import { Box, Modal } from '@mui/material';
 import { UserData } from '../../types';
 import { enter } from './authSlice';
 import styles from './Auth.module.css';
 import Button, { ButtonTheme } from '../../reused/Button/Button';
 import { boxStyle } from './boxStyle';
+import { useSelector } from 'react-redux';
 
 type Props = {
   open: boolean;
@@ -16,16 +16,22 @@ type Props = {
 function Auth({ open, setOpen }: Props) {
   const [authType, setAuthType] = useState<string>('login');
 
-  const { register, handleSubmit } = useForm();
+  const error = useSelector((state: RootState) => state.auth.enterError);
+
+  const userName = useRef<HTMLInputElement>(null);
+  const email = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement>(null);
 
   const dispatch = useAppDispatch();
 
-  const onFormSubmit = (data: any) => {
-    console.log(data);
+  const handleEnter = async () => {
     const userData: UserData = {
       authType,
-      ...data,
+      userName: userName.current && userName.current.value,
+      email: email.current && email.current.value,
+      password: password.current && password.current.value,
     };
+
     dispatch(enter(userData));
   };
 
@@ -36,49 +42,46 @@ function Auth({ open, setOpen }: Props) {
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
       <Box sx={boxStyle}>
-        <form className={styles.form} onSubmit={handleSubmit(onFormSubmit)}>
-          {authType === 'register' && (
-            <input
-              className={styles.input}
-              {...register('userName')}
-              type="text"
-              name="userName"
-              placeholder="Введите имя"
-              required
-            />
-          )}
+        {error && <p className={styles.error}>{error}</p>}
 
+        {authType === 'register' && (
           <input
             className={styles.input}
-            {...register('email')}
-            type="email"
-            name="email"
-            placeholder="Введите email"
-            required
+            ref={userName}
+            type="text"
+            name="userName"
+            placeholder="Введите имя"
           />
+        )}
 
-          <input
-            className={styles.input}
-            {...register('password')}
-            type="password"
-            name="password"
-            placeholder="Введите пароль"
-            required
-          />
+        <input
+          className={styles.input}
+          ref={email}
+          type="email"
+          name="email"
+          placeholder="Введите email"
+        />
 
-          <p className={styles.question}>
-            {authType === 'login' ? 'Впервые у нас?' : 'Уже есть аккаунт?'}{' '}
-            <button className={styles.switch} onClick={changeAuthType}>
-              {authType === 'login' ? 'Зарегистрироваться' : 'Войти'}
-            </button>
-          </p>
+        <input
+          className={styles.input}
+          ref={password}
+          type="password"
+          name="password"
+          placeholder="Введите пароль"
+        />
 
-          <Button
-            type="submit"
-            text={authType === 'login' ? 'Войти' : 'Зарегистрироваться'}
-            theme={ButtonTheme.primary}
-          />
-        </form>
+        <p className={styles.question}>
+          {authType === 'login' ? 'Впервые у нас?' : 'Уже есть аккаунт?'}{' '}
+          <button className={styles.switch} onClick={changeAuthType}>
+            {authType === 'login' ? 'Зарегистрироваться' : 'Войти'}
+          </button>
+        </p>
+
+        <Button
+          text={authType === 'login' ? 'Войти' : 'Зарегистрироваться'}
+          onClick={handleEnter}
+          theme={ButtonTheme.primary}
+        />
       </Box>
     </Modal>
   );

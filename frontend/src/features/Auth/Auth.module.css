@@ -9,6 +9,11 @@
   width: 100%;
 }
 
+.error {
+  color: #FA5252;
+  margin-bottom: 20px;
+}
+
 .input {
   border-bottom: 1px solid #47BD29;
   width: 100%;
