@@ -22,8 +22,10 @@ authRouter.get('/user', async (req, res) => {
 
 authRouter.post('/login', async (req, res) => {
   // достаём почту и пароль пользователя
-  const isEmail = Boolean(req.body.email.trim());
-  const isPassword = Boolean(req.body.password.trim());
+  const isEmail = Boolean(req.body.email ? req.body.email.trim() : undefined);
+  const isPassword = Boolean(
+    req.body.password ? req.body.password.trim() : undefined,
+  );
 
   // проверка, что пользователь ввёл и почту, и пароль
   if (!isEmail || !isPassword) {
@@ -81,23 +83,23 @@ authRouter.post('/login', async (req, res) => {
 
 authRouter.post('/register', async (req, res) => {
   // проверка на длину имени
-  if (req.body.userName.trim().length < 2) {
+  if (!req.body.userName || req.body.userName.trim().length < 2) {
     res.status(403).json({ error: 'Имя должно содержать минимум 2 символа!' });
     return;
   }
 
   // проверка на формат ввода почты
-  if (!req.body.email.includes('@')) {
+  if (!req.body.email || !req.body.email.includes('@')) {
     res
       .status(403)
       .json({ error: 'Неверный формат: email должен содержать символ @!' });
     return;
   }
 
-  const rawPassword = req.body.password.trim();
+  const rawPassword = req.body.password ? req.body.password.trim() : undefined;
 
   // проверка на длину пароля
-  if (rawPassword.length < 5) {
+  if (!rawPassword || rawPassword.length < 5) {
     res.status(403).json({
       error: 'Пароль должен содержать минимум 5 символов без пробелов!',
     });

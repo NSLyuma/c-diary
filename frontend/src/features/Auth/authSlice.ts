@@ -6,6 +6,7 @@ const initialState: AuthState = {
   userName: '',
   isAuth: false,
   error: undefined,
+  enterError: undefined,
 };
 
 export const getUser = createAsyncThunk('auth/user', async () => {
@@ -37,9 +38,13 @@ export const authSlice = createSlice({
       .addCase(enter.fulfilled, (state, action) => {
         state.userName = action.payload.userName;
         state.isAuth = action.payload.isAuth;
+        state.enterError = undefined;
       })
+      // .addCase(enter.pending, (state, action) => {
+      //   state.error = undefined;
+      // })
       .addCase(enter.rejected, (state, action) => {
-        state.error = action.error.message;
+        state.enterError = action.error.message;
       });
   },
 });

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { getUser } from '../routes/Auth/authSlice';
+import { getUser } from '../features/Auth/authSlice';
 import { useAppDispatch } from '../store/store';
 
 type Props = {

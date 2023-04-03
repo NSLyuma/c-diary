@@ -1,0 +1,19 @@
+.header {
+  height: 50px;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #47BD29;
+  color: #47BD29;
+}
+
+.auth {
+  color: #47BD29;
+  transition: all 0.2s;
+}
+.auth:hover {
+  color: #0ea21d;
+}/*# sourceMappingURL=Header.module.css.map */

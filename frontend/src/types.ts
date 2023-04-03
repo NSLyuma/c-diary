@@ -2,6 +2,7 @@ export type AuthState = {
   userName: string;
   isAuth: boolean;
   error: string | undefined;
+  enterError: string | undefined;
 };
 
 export type UserData = {
