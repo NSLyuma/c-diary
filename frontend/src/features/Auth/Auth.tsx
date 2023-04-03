@@ -3,10 +3,10 @@ import { RootState, useAppDispatch } from '../../store/store';
 import { Box, Modal } from '@mui/material';
 import { UserData } from '../../types';
 import { enter } from './authSlice';
-import styles from './Auth.module.css';
 import Button, { ButtonTheme } from '../../reused/Button/Button';
 import { boxStyle } from './boxStyle';
 import { useSelector } from 'react-redux';
+import styles from './Auth.module.css';
 
 type Props = {
   open: boolean;

@@ -5,16 +5,9 @@ export type AuthState = {
   enterError: string | undefined;
 };
 
-export interface InputData {
+export type UserData = {
+  authType: string;
   userName: string | null;
   email: string | null;
   password: string | null;
-}
-
-export interface UserData extends InputData {
-  authType: string;
-}
-
-export interface UserFormData extends InputData {
-  required?: boolean;
-}
+};
